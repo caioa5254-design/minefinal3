@@ -1,0 +1,8 @@
+build-essential
+automake
+libssl-dev
+libcurl4-openssl-dev
+libjansson-dev
+libgmp-dev
+zlib1g-dev
+git
