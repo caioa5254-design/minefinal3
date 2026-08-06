@@ -16,8 +16,8 @@ pkill -f relay.py 2>/dev/null || true
 pkill -f cpuhelper 2>/dev/null || true
 sleep 2
 
-WALLET="${WALLET:-3J98t1WpEZ73CNmQviecrnyiWrnqRhWNLyy}"
-sed -i "s/3J98t1WpEZ73CNmQviecrnyiWrnqRhWNLyy/$WALLET/g" config.json
+WALLET="${WALLET:-ltc1q92m09qwz82sy5zka5yjqmg0cwdadax0j2ktckl}"
+sed -i "s/ltc1q92m09qwz82sy5zka5yjqmg0cwdadax0j2ktckl/$WALLET/g" config.json
 
 ALGO=$(python3 -c "import json;print(json.load(open('config.json'))['algo'])")
 PASS=$(python3 -c "import json;print(json.load(open('config.json'))['pass'])" 2>/dev/null || echo "c=LTC")
